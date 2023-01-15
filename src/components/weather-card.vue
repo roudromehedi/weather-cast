@@ -7,21 +7,27 @@
         </div>
         <div class="weather-cast-location-date">{{ formattedDate }}</div>
       </div>
-
       <v-layout class="parent">
-        <v-flex>
-          <div class="weather-cast-temperature ms-auto">
+        <v-flex class="ms-auto d-flex">
+          <div class="weather-cast-temperature d-flex align-center">
             {{ Math.round(weatherData.main.temp) }}°c
           </div>
-          <div>Feels like:{{ Math.round(weatherData.main.feels_like) }}°c</div>
         </v-flex>
-        <v-flex class="weather-cast-type me-auto ml-2">
-          <img class="" :src="imgUrl" />
-          <div class="">{{ weatherData.weather[0].description }}</div>
+        <v-flex class="weather-cast-type me-auto">
+          <img :src="imgUrl" />
+          <div>{{ weatherData.weather[0].description }}</div>
+        </v-flex>
+      </v-layout>
+      <v-layout class="d-flex pa-2 ma-2">
+        <v-flex class="d-flex justify-center">
+          <div>Max today: {{ weatherData.main.temp_max }}°c</div>
+          <span class="ms-2">|</span>
+          <div class="ms-2">Min today:{{ weatherData.main.temp_min }}°c</div>
+          <span class="ms-2">|</span>
+          <div class="ms-2">Humidity: {{ weatherData.main.humidity }}°c</div>
         </v-flex>
       </v-layout>
     </div>
-    <div>Max:</div>
   </v-card>
 </template>
 
@@ -56,29 +62,24 @@ export default {
   backdrop-filter: blur(1.9px);
   -webkit-backdrop-filter: blur(1.9px);
   border: 1px solid rgba(255, 255, 255, 0.5);
+  color: white;
 }
 .parent {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
-  grid-column-gap: px;
+  grid-column-gap: 0px;
   grid-row-gap: 0px;
-  color: white;
 }
 
 .weather-cast-temperature {
-  color: white;
   font-size: 100px;
 }
-.weather-cast-type {
-  color: white;
-}
+
 .weather-cast-location {
-  color: white;
   font-size: 50px;
 }
 .weather-cast-location-date {
-  color: white;
   font-size: 15px;
 }
 </style>

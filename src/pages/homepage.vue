@@ -14,6 +14,11 @@
             @keypress="fetchWeather"
           />
         </div>
+        <weatherCard
+          v-if="showcard"
+          :img-url="imgUrl"
+          :weather-data="weatherData"
+        ></weatherCard>
         <div class="div">
           <img
             v-if="!weatherData.name"
@@ -22,12 +27,15 @@
             src="../assets/weather-cast-logo.png"
           />
         </div>
-        <weatherCard
-          v-if="showcard"
-          :img-url="imgUrl"
-          :weather-data="weatherData"
-        ></weatherCard
-      ></v-container>
+      </v-container>
+      <div>
+        <img
+          v-if="weatherData.name"
+          height="150"
+          class=""
+          src="../assets/weather-cast-logo.png"
+        />
+      </div>
     </main>
   </v-app>
 </template>
