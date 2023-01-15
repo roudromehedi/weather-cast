@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <main class="app" d-flex justify-center>
-      <v-container
-        ><div class="search-box">
+  <v-app class="bg-image">
+    <main>
+      <v-container>
+        <div class="search-box">
           <v-text-field
             rounded
             label="Enter place name"
             placeholder="Ex. Berlin"
             v-model="query"
             outlined
-            color="red"
+            color="white"
             shaped
             @keypress="fetchWeather"
           />
@@ -22,31 +22,20 @@
             src="../assets/weather-cast-logo.png"
           />
         </div>
-
-        <div class="weather-wrap" v-if="typeof weatherData.main != 'undefined'">
-          <div class="location-box">
-            <div class="location">
-              {{ weatherData.name }}, {{ weatherData.sys.country }}
-            </div>
-            <div class="date">{{ dateBuilder() }}</div>
-          </div>
-
-          <div class="weather-box">
-            <div class="temp">
-              {{ Math.round(weatherData.main.temp) }}°c
-              <span><img :src="imgUrl" /></span>
-            </div>
-            <div class="weather">{{ weatherData.weather[0].main }}</div>
-          </div>
-        </div></v-container
-      >
+        <weatherCard
+          v-if="showcard"
+          :img-url="imgUrl"
+          :weather-data="weatherData"
+        ></weatherCard
+      ></v-container>
     </main>
-  </div>
+  </v-app>
 </template>
 
 <script>
+import weatherCard from "@/components/weather-card.vue";
 export default {
-  components: {},
+  components: { weatherCard },
   name: "HomePage",
   data() {
     return {
@@ -55,6 +44,7 @@ export default {
       query: "",
       weatherData: {},
       imgUrl: "",
+      showcard: false,
     };
   },
   methods: {
@@ -72,6 +62,7 @@ export default {
 
     setResults(results) {
       this.weatherData = results;
+      this.showcard = true;
       this.getIcon();
     },
     getIcon() {
@@ -117,9 +108,12 @@ export default {
 
 <style lang="scss">
 body {
-  font-family: "montserrat", sans-serif;
+  background-image: url("../assets/cold.jpg");
+  background-size: cover;
+  background-position: bottom;
+  transition: 0.4s;
 }
-.app {
+.weather-cast-cold {
   background-image: url("../assets/cold.jpg");
   background-size: cover;
   background-position: bottom;
@@ -129,76 +123,6 @@ body {
   background-image: url("../assets/warm.jpg");
 }
 
-main {
-  min-height: 100vh;
-  padding: 25px;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.25),
-    rgba(0, 0, 0, 0.75)
-  );
-}
-.search-box {
-  width: 100%;
-  margin-bottom: 30px;
-}
-.search-box .search-bar {
-  display: block;
-  width: 100%;
-  padding: 15px;
-
-  color: #313131;
-  font-size: 20px;
-  appearance: none;
-  border: none;
-  outline: none;
-  background: none;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 0px 16px 0px 16px;
-  transition: 0.4s;
-}
-.search-box .search-bar:focus {
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.75);
-  border-radius: 16px 0px 16px 0px;
-}
-.location-box .location {
-  color: #fff;
-  font-size: 32px;
-  font-weight: 500;
-  text-align: center;
-  text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
-}
-.location-box .date {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 300;
-  font-style: italic;
-  text-align: center;
-}
-.weather-box {
-  text-align: center;
-}
-.weather-box .temp {
-  display: inline-block;
-  padding: 10px 25px;
-  color: #fff;
-  font-size: 102px;
-  font-weight: 900;
-  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  margin: 30px 0px;
-  box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-}
-.weather-box .weather {
-  color: #fff;
-  font-size: 48px;
-  font-weight: 700;
-  font-style: italic;
-  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-}
 .div {
   height: 100%;
   width: 100%;
@@ -221,5 +145,14 @@ main {
   > .v-input__slot
   fieldset {
   color: rgba(255, 255, 255, 0.38);
+}
+.bg-image {
+  background-image: url("../assets/cold.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.theme--light.v-application {
+  background-color: transparent;
 }
 </style>
